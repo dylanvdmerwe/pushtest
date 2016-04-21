@@ -15,7 +15,7 @@ export class MessageState {
         }
     }
 
-    addMessage(message: MessageData) {
+    addMessage(message: MessageData, coldstart : boolean, foreground: boolean, userPressed : boolean) {
         this.zone.run(() => {
             // check that this Id does not already exist in list
             let found: boolean = false;
@@ -28,6 +28,10 @@ export class MessageState {
 
             if (!found) {
                 console.log('adding message');
+                message.coldstart = coldstart;
+                message.foreground = foreground;
+                message.Message += "\n UserPressedNotification: " + userPressed;
+                
                 this.messages.unshift(message);
 
                 // store in localStorage
@@ -47,4 +51,6 @@ export interface MessageData {
     Title: string;
     Message: string;
     DateReceived: string;
+    coldstart: boolean;
+    foreground: boolean;
 }

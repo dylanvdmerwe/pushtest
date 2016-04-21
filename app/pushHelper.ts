@@ -49,7 +49,7 @@ export class PushHelper {
 
     static isColdStart(data): boolean {
         // has the app been started by pressing the notification?
-        if (data.additionalData.coldstart != null) // value is not set if user did not press the notification
+        if (data.additionalData.coldstart != null) // on android value is not populated if user did not press the notification
             return data.additionalData.coldstart;
         
         return false; 
@@ -60,21 +60,33 @@ export class PushHelper {
         return data.additionalData.foreground;
     }
 
-    static userPressedNotification(data): boolean {
-        // this value is populated with a true or false if the user pressed the notification to open the app
-        return data.additionalData.coldstart != null;
+    static userPressedNotification(data, platform:Platform): boolean {
+        if(platform.is('android')) {
+            // this value is populated with a true or false if the user pressed the notification to open the app
+            return data.additionalData.coldstart != null;
+        }
+         else {
+             // on ios this is never undefined; and we can only detect if a user has pressed when app is dead
+             return data.additionalData.coldstart && PushHelper.isForeground(data);
+         }   
     }
 
     onPushNotification(data) {
-        console.log("OnPushNotificiation! coldstart (" + PushHelper.isColdStart(data) + ") foreground (" + PushHelper.isForeground(data) + ") userPressedNotification (" + PushHelper.userPressedNotification(data) + ")");
+        console.log("OnPushNotificiation! coldstart (" + PushHelper.isColdStart(data) + ") foreground (" + PushHelper.isForeground(data) + ") userPressedNotification (" + PushHelper.userPressedNotification(data, this.platform) + ")");
         console.log(data);
 
         if (data && data.additionalData && data.additionalData.customData) {
             let cd = data.additionalData.customData;
             if (cd.Type == 1) { // message received                             
-                this.saveMessage(data.additionalData.customData);
+                this.saveMessage(data.additionalData.customData, data);
             }
         }
+        
+        if(this.platform.is('ios') && !PushHelper.isForeground(data))
+        {
+            this.push.finish();
+        }
+        
         // data.message,
         // data.title,
         // data.count,
@@ -83,7 +95,7 @@ export class PushHelper {
         // data.additionalData
     }
 
-    saveMessage(message: MessageData) {
-        this.state.addMessage(message);
+    saveMessage(message: MessageData, data) {
+        this.state.addMessage(message, PushHelper.isColdStart(data), PushHelper.isForeground(data), PushHelper.userPressedNotification(data, this.platform));
     }
 }
