@@ -1,0 +1,9 @@
+.home {
+  .item-heading {
+      background: rgb(250,250,250);
+  }
+  
+  ion-card .item + ion-card-content {
+      padding-top: 15px;
+  }
+}

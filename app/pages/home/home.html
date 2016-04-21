@@ -1,0 +1,21 @@
+<ion-navbar *navbar>
+  <ion-title>
+    Home
+  </ion-title>
+</ion-navbar>
+
+<ion-content padding class="home">
+  <ion-row>
+    <ion-col width-50><button block primary (click)="add()">Add</button></ion-col>
+    <ion-col width-50><button block danger (click)="clear()">Clear</button></ion-col>
+  </ion-row>
+  <ion-card *ngFor='#msg of state.messages'>
+    <ion-item class='item-heading'>
+      <h2>{{msg.Title}}</h2>
+      <p>{{msg.DateReceived}}</p>
+    </ion-item>
+    <ion-card-content>
+      <p>{{msg.Message}}</p>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
