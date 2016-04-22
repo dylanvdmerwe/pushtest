@@ -1,3 +1,12 @@
+Built with Ionic 2. 
+
+To install:
+ - `npm install -g ionic@beta cordova`
+ - Clone the repo
+ - `npm install`
+ - `ionic platform add android` (or ios)
+ - `ionic run android` (or ios)
+
 ###Android Push Payload Example###
 
 ```
