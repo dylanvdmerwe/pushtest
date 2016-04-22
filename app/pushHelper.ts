@@ -54,7 +54,6 @@ export class PushHelper {
     onPushNotification(data) {
         console.log("OnPushNotificiation! coldstart (" + data.additionalData.coldstart + ") foreground (" + data.additionalData.foreground + ") userPressedNotification (" + PushHelper.userPressedNotification(data, this.platform) + ")");
         console.log(data);
-        console.log(JSON.stringify(data));
 
         if (data && data.additionalData && data.additionalData.customData) {
             let cd = data.additionalData.customData;
