@@ -48,14 +48,7 @@ export class PushHelper {
     }
 
     static userPressedNotification(data, platform: Platform): boolean {
-        if (platform.is('android')) {
-            // this value is populated with a true or false if the user pressed the notification to open the app
-            return data.additionalData.coldstart != null;
-        }
-        else {
-            // on ios this is never undefined; and we can only detect if a user has pressed when app is dead
-            return data.additionalData.coldstart && !data.additionalData.foreground;
-        }
+        return data.additionalData.coldstart != null;
     }
 
     onPushNotification(data) {
