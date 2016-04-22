@@ -22,6 +22,6 @@ export class HomePage {
 
   add() {
     // note that this is just a test
-    this.state.addMessage({ Title: 'test', Message: 'test', DateReceived: 'test', Id: 0, coldstart: false, foreground: false }, false, false, false);
+    this.state.addMessage({ Title: 'test', Message: 'test', DateReceived: 'test', Id: 0, coldstart: 'false', foreground: 'false' }, false, false, false);
   }
 }

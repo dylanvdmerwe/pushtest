@@ -15,23 +15,23 @@ export class MessageState {
         }
     }
 
-    addMessage(message: MessageData, coldstart : boolean, foreground: boolean, userPressed : boolean) {
+    addMessage(message: MessageData, coldstart: boolean, foreground: boolean, userPressed: boolean) {
         this.zone.run(() => {
             // check that this Id does not already exist in list
             let found: boolean = false;
-            for (var i of this.messages) {
-                if (i.Id == message.Id) {
-                    found = true;
-                    break;
-                }
-            }
+            // for (var i of this.messages) {
+            //     if (i.Id == message.Id) {
+            //         found = true;
+            //         break;
+            //     }
+            // }
 
             if (!found) {
                 console.log('adding message');
-                message.coldstart = coldstart;
-                message.foreground = foreground;
-                message.Message += "\n UserPressedNotification: " + userPressed;
-                
+                message.coldstart = coldstart === undefined ? 'undefined' : coldstart.toString();
+                message.foreground = foreground === undefined ? 'undefined' : foreground.toString();
+                message.Message += "   UserPressedNotification: " + userPressed;
+
                 this.messages.unshift(message);
 
                 // store in localStorage
@@ -51,6 +51,6 @@ export interface MessageData {
     Title: string;
     Message: string;
     DateReceived: string;
-    coldstart: boolean;
-    foreground: boolean;
+    coldstart: string;
+    foreground: string;
 }
